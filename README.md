@@ -18,6 +18,8 @@ BackSite is designed to be used behind an NGINX proxy which may also service a w
 
 - [X] Add basic DB table schema via SQLAlchemy
 
+- [ ] Add salts to hashed user passwords
+
 - [ ] Create endpoints & helper functions for HTTP-only cookie authentication
 
 - [ ] Add user creation & confirmation endpoints with support for sending email confirmation links.
