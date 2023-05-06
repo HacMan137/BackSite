@@ -15,7 +15,7 @@ services:
       POSTGRES_USER: backsite
       POSTGRES_PASSWORD: backsite
     volumes:
-      - ./postgres_data:/var/lib/postgresql
+      - ./postgres_data:/var/lib/postgresql/data
     networks:
       - backsite
   web:
