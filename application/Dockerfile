@@ -1,10 +1,10 @@
 FROM python:3.11.3-bullseye
 
 COPY ./gunicorn.sh /gunicorn.sh
-COPY ./app /app
-WORKDIR /app
+COPY ./package /package
+WORKDIR /package
 
-RUN pip3 install -r ./requirements.txt
+RUN pip3 install .
 
 WORKDIR /
 ENTRYPOINT ["./gunicorn.sh"]
