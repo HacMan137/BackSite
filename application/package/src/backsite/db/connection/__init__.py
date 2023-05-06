@@ -1,6 +1,6 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 
 DATABASE_NAME = os.environ.get("POSTGRES_DB_NAME", "backsite")
 DATABASE_HOST = os.environ.get("POSTGRES_HOST", "db")
@@ -18,7 +18,4 @@ def create_sql_engine():
 def create_connection():
     db = create_sql_engine()
 
-    Session = sessionmaker(db)
-    connection = Session
-
-    return connection
+    return Session(db)

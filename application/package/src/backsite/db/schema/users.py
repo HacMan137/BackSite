@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer
 from backsite.db.schema import Base
 
 class User(Base):
-    __tablename__ = "user"
+    __tablename__ = "backsite_user"
 
     user_id = Column(Integer, primary_key = True, autoincrement = True)
     email = Column(String(length=512), nullable = False, unique = True)
