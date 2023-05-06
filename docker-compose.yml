@@ -2,20 +2,33 @@ version: '3.8'
 services:
   elastic:
     image: elasticsearch:8.7.1
-    container_name: elasticsearch
     volumes:
       - ./elastic_data:/usr/share/elasticsearch/data
     networks:
       - backsite
+    environment:
+      ELASTIC_PASSWORD: backsite
   db:
     image: postgres:15.2
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: backsite
+      POSTGRES_PASSWORD: backsite
     volumes:
       - ./postgres_data:/var/lib/postgresql
     networks:
       - backsite
+  web:
+    build: 
+      context: ./application
+    ports:
+      - 8080:80
+    networks:
+      - backsite
+    depends_on:
+      - db
+      - elastic
+
 
 networks:
   backsite:
