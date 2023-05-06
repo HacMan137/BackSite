@@ -16,7 +16,7 @@ BackSite is designed to be used behind an NGINX proxy which may also service a w
 
 ## Roadmap:
 
-- [ ] Add basic DB table schema via SQLAlchemy
+- [X] Add basic DB table schema via SQLAlchemy
 
 - [ ] Create endpoints & helper functions for HTTP-only cookie authentication
 
