@@ -15,12 +15,16 @@ setuptools.setup(
         "sqlalchemy==2.0.12",
         "flask==2.3.2",
         "flask-cors==3.0.10",
-        "gunicorn==20.1.0"
+        "gunicorn==20.1.0",
+        "sqlalchemy-utils==0.41.1",
     ],
     package_dir={"": "src"},
     packages=[
         "backsite",
-        "backsite.schema",
+        "backsite.db",
+        "backsite.db.management",
+        "backsite.db.schema",
+        "backsite.db.connection",
         "backsite.app",
     ]
 )

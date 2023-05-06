@@ -24,8 +24,11 @@ services:
     ports:
       - 8080:80
     environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
       POSTGRES_USER: backsite
       POSTGRES_PASSWORD: backsite
+      POSTGRES_DB_NAME: backsite
     networks:
       - backsite
     depends_on:
