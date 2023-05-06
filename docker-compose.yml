@@ -23,6 +23,9 @@ services:
       context: ./application
     ports:
       - 8080:80
+    environment:
+      POSTGRES_USER: backsite
+      POSTGRES_PASSWORD: backsite
     networks:
       - backsite
     depends_on:
