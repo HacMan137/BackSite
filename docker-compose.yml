@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  elastic:
+    image: elasticsearch:8.7.1
+    container_name: elasticsearch
+    volumes:
+      - ./elastic_data:/usr/share/elasticsearch/data
+    networks:
+      - backsite
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
+    networks:
+      - backsite
+
+networks:
+  backsite:
+    driver: bridge
