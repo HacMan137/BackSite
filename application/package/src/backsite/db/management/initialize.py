@@ -7,12 +7,17 @@ from backsite.db.schema import User
 
 def populate_db():
     conn = create_connection()
-    admin = User(username="admin", email="admin@admin.com", password_hash=hashlib.sha512(b"admin").hexdigest())
+    admin = User.create_user(
+        username="admin", 
+        email="admin@admin.com", 
+        password="admin"
+    )
     conn.add(admin)
     conn.commit()
+    conn.close()
 
 if __name__ == "__main__":
-    retries = 10
+    retries = 30
     while retries > 0:
         try:
             engine = create_sql_engine()

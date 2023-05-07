@@ -1,6 +1,6 @@
 from sqlalchemy_utils import database_exists, create_database
 # Import all tables we want to create below
-from backsite.db.schema import User
+from backsite.db.schema import User, Session
 # Import Base and DBSession
 from backsite.db.schema import DBSession, Base
 from backsite.db.connection import create_sql_engine

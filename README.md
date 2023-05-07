@@ -24,4 +24,4 @@ BackSite is designed to be used behind an NGINX proxy which may also service a w
 
 - [ ] Add user creation & confirmation endpoints with support for sending email confirmation links.
  
- - [ ] ...And much more!
+- [ ] ...And much more!
