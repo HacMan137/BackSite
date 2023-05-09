@@ -3,9 +3,10 @@ import hashlib
 from sqlalchemy import inspect
 from backsite.db.management import initialize_db
 from backsite.db.connection import create_sql_engine, create_connection
-from backsite.db.schema import User
+from backsite.db.schema import User, Permission
 
 def populate_db():
+    # Create default admin user
     conn = create_connection()
     admin = User.create_user(
         username="admin", 
@@ -13,8 +14,15 @@ def populate_db():
         password="admin"
     )
     conn.add(admin)
+    # Create default permissions
+    default_permissions = Permission.create_default_permissions(conn)
+    # Give admin all permissions
+    for perm in default_permissions:
+        admin.permissions.append(perm)
+    # Save database changes
     conn.commit()
     conn.close()
+
 
 if __name__ == "__main__":
     retries = 30

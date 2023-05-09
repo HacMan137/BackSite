@@ -4,5 +4,6 @@ from backsite.db.schema.base import Base
 # Import all table classes for easy access
 from backsite.db.schema.user import User
 from backsite.db.schema.session import Session
+from backsite.db.schema.permission import Permission, user_permissions
 
 DBSession = scoped_session(sessionmaker())

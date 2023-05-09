@@ -1,6 +1,6 @@
 import hashlib
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped
 from backsite.db.schema import Base
 from backsite.db.connection import create_connection
 
@@ -15,6 +15,7 @@ class User(Base):
     password_hash = Column(String(length=128), nullable=False)
 
     sessions = relationship("Session", back_populates="user")
+    permissions = relationship("Permission", secondary="user_permissions", back_populates="users")
 
     @property
     def json(self) -> dict:

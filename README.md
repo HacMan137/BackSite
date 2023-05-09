@@ -14,6 +14,10 @@ BackSite provides out-of-the-box support for everything you need to get your lat
 
 BackSite is designed to be used behind an NGINX proxy which may also service a web UI to interact with the application.
 
+## Support
+
+Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
+
 ## Roadmap:
 
 - [X] Add basic DB table schema via SQLAlchemy
