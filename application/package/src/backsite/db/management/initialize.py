@@ -1,17 +1,21 @@
 import time
-import hashlib
+import json
 from sqlalchemy import inspect
 from backsite.db.management import initialize_db
 from backsite.db.connection import create_sql_engine, create_connection
 from backsite.db.schema import User, Permission
+from backsite.utils import get_configuration
 
 def populate_db():
+    # Get configuration file
+    config_data = get_configuration()
     # Create default admin user
     conn = create_connection()
     admin = User.create_user(
         username="admin", 
-        email="admin@admin.com", 
-        password="admin"
+        email=config_data['ADMIN_EMAIL'], 
+        password="admin",
+        verified=True
     )
     conn.add(admin)
     # Create default permissions

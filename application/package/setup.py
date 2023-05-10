@@ -26,5 +26,6 @@ setuptools.setup(
         "backsite.db.schema",
         "backsite.db.connection",
         "backsite.app",
+        "backsite.utils",
     ]
 )

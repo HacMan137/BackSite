@@ -1,6 +1,7 @@
 {
     "API_LOCATION": "",
     "API_COMMON_NAME": "",
+    "ADMIN_EMAIL": "",
     "SMTP_HOST": "",
     "SMTP_PORT": "",
     "SMTP_USERNAME": "",

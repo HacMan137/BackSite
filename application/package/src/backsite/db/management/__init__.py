@@ -6,6 +6,8 @@ from backsite.db.schema import user_permissions
 from backsite.db.schema import DBSession, Base
 from backsite.db.connection import create_sql_engine
 
+CONFIG_FILE = "/opt/config.json"
+
 def create_db(engine):
     if not database_exists(engine.url):
         create_database(engine.url)
