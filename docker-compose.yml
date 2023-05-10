@@ -34,6 +34,8 @@ services:
     depends_on:
       - db
       - elastic
+    volumes:
+      - ./configuration:/opt/configuration
 
 
 networks:
