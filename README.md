@@ -22,7 +22,7 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
 - [X] Add basic DB table schema via SQLAlchemy
 
-- [ ] Add salts to hashed user passwords
+- [X] Add salts to hashed user passwords
 
 - [X] Create endpoints & helper functions for HTTP-only cookie authentication
 
