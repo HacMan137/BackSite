@@ -13,6 +13,12 @@ def generate_salt():
     '''
     return str(uuid4()).replace("-","")
 
+def generate_user_identifier():
+    '''
+    Generate a random user identifier to be used for user-specific links
+    '''
+    return (str(uuid4()) + str(uuid4())).replace("-","")
+
 class User(Base):
     __tablename__ = "backsite_user"
 
@@ -28,6 +34,8 @@ class User(Base):
     salt = Column(String(length=32), nullable=False, default=generate_salt)
     # Boolean indicating whether user has successfully completed email verification
     verified = Column(Boolean, nullable=False, default=False)
+    # Unique user identifier used to generation user-specific links
+    user_identifier = Column(String(length=64), nullable=False, default=generate_user_identifier)
 
     # List of active sessions attributed to this user
     sessions = relationship("Session", back_populates="user")
