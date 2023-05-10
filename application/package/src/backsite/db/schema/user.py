@@ -20,6 +20,9 @@ def generate_user_identifier():
     return (str(uuid4()) + str(uuid4())).replace("-","")
 
 class User(Base):
+    '''
+    User class to model API user accounts
+    '''
     __tablename__ = "backsite_user"
 
     # Auto-incrementing unique user ID
