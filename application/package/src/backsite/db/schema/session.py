@@ -9,6 +9,9 @@ def generate_uuid():
     return uuid4().hex
 
 def generate_expiration():
+    '''
+    Helper function to generate the expiration date of a session
+    '''
     return datetime.utcnow() + timedelta(days=14)
 
 def clear_expired_sessions(conn):
@@ -19,6 +22,9 @@ def clear_expired_sessions(conn):
     conn.commit()
 
 class Session(Base):
+    '''
+    Class for the table used to keep track of user sessions
+    '''
     __tablename__ = "session"
 
     user_id = Column(ForeignKey("backsite_user.user_id", ondelete="CASCADE"), primary_key = True, nullable=False)
@@ -45,11 +51,12 @@ class Session(Base):
         }
     
     @classmethod
-    def validate(cls, token: str):
-        conn = create_connection()
-        session = pg.query(cls).where(cls.token == token).first()
-        conn.close()
+    def validate(cls, token: str, conn):
+        '''
+        Validate the given token
+        '''
+        session = conn.query(cls).where(cls.token == token).first()
 
-        cleanup_sessions()
+        clear_expired_sessions(conn)
 
         return session

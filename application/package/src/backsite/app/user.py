@@ -5,6 +5,44 @@ from backsite.db.connection import create_connection
 
 user_app = Blueprint("user", __name__, template_folder="templates")
 
+def get_token():
+    '''
+    Retrieve the session token from request cookies
+    '''
+    return request.cookies.get("session", "")
+
+def authorized(required_permissions = []):
+    '''
+    Decorator function to wrap API endpoints that require certain permissions
+    '''
+    def _authorized(f):
+        '''
+        Receives pointer to the decorated function
+        '''
+        def __authorized(*args, **kwargs):
+            '''
+            Receives arguments intended for decorated function
+            '''
+            conn = create_connection()
+            token = get_token()
+            session = Session.validate(token, conn)
+            if session is None:
+                conn.close()
+                return {"success": False, "msg": "Unauthorized."}, 401
+            
+            user = session.user
+            user_permissions = [p.permission_name for p in user.permissions]
+            for required in required_permissions:
+                if required not in user_permissions:
+                    conn.close()
+                    return {"success": False, "msg": "Unauthorized."}, 401
+
+            conn.close()
+            return f(*args, **kwargs)
+        return __authorized
+    
+    return _authorized
+
 @user_app.route('/api/user/session', methods=["POST"])
 def authenticate():
     '''
@@ -43,18 +81,14 @@ def authenticate():
     return response
 
 @user_app.route("/api/user/session", methods=["DELETE"])
+@authorized()
 def logout():
     '''
     Logout the authenticated user
     '''
     token = get_token()
     conn = create_connection()
-
-    session = conn.query(Session).where(Session.token == token).first()
-
-    if session is None:
-        conn.close()
-        return json.dumps({"success": False, "msg": "Couldn't find a session"})
+    session = Session.validate(token, conn)
     
     conn.delete(session)
     conn.commit()
@@ -64,6 +98,3 @@ def logout():
     response.delete_cookie("session")
 
     return response
-
-def get_token():
-    return request.cookies.get("session", "")
