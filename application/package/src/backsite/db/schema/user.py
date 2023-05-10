@@ -34,7 +34,7 @@ class User(Base):
     salt = Column(String(length=32), nullable=False, default=generate_salt)
     # Boolean indicating whether user has successfully completed email verification
     verified = Column(Boolean, nullable=False, default=False)
-    # Unique user identifier used to generation user-specific links
+    # Unique user identifier used to generate user-specific links
     user_identifier = Column(String(length=64), nullable=False, default=generate_user_identifier)
 
     # List of active sessions attributed to this user
