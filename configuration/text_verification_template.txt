@@ -1,0 +1,5 @@
+Welcome to {API_COMMON_NAME}, {USERNAME}!
+
+Click the following link to verify your account:
+
+{VERIFICATION_URL}

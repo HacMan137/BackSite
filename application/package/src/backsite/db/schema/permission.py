@@ -10,6 +10,7 @@ DEFAULT_PERMISSIONS = [
     "DeleteUser",
     "CreatePost",
     "DeletePost",
+    "Comment",
 ]
 
 user_permissions = Table(
