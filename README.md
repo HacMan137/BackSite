@@ -24,7 +24,7 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
 - [ ] Add salts to hashed user passwords
 
-- [ ] Create endpoints & helper functions for HTTP-only cookie authentication
+- [X] Create endpoints & helper functions for HTTP-only cookie authentication
 
 - [ ] Add user creation & confirmation endpoints with support for sending email confirmation links.
  
