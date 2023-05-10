@@ -27,5 +27,7 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 - [X] Create endpoints & helper functions for HTTP-only cookie authentication
 
 - [ ] Add user creation & confirmation endpoints with support for sending email confirmation links.
+
+- [ ] Add setup wizard for entering API location, SMTP credentials, etc.
  
 - [ ] ...And much more!
