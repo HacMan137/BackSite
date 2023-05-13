@@ -106,9 +106,9 @@ def logout():
 
 @user_app.route("/api/user", methods=["POST"])
 @requires({
-    "username": str,
-    "email": (pattern, r'^\w+@\w+\.\w{1,}$', 'Email must be in the form XXX@XXX.XXX'),
-    "password": (pattern, r'^.{8,}$', 'Password must be at least 8 characters long'),
+    "username": (r'^.{6,}$', 'Username must be at least 6 characters long'),
+    "email": (r'^\w+@\w+\.\w{1,}$', 'Email must be in the form XXX@XXX.XXX'),
+    "password": (r'^.{8,}$', 'Password must be at least 8 characters long'),
 })
 def create_user(username: str, email: str, password: str):
     # Open a database connection and create the user
@@ -118,4 +118,4 @@ def create_user(username: str, email: str, password: str):
     conn.commit()
     # FIXME: Kick off email verification job
     # FIXME: Validate uniqueness of username and email address
-    return {"success": True, msg: "User created!"}
+    return {"success": True, "msg": "User created!"}
