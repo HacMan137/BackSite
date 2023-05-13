@@ -1,1 +1,1 @@
-curl -X POST http://localhost:8080/api/user -H 'Content-Type: application/json' -k -d '{"username":"test0", "password":"testing123", "email":"fake@fake.com"}' --cookie-jar ./cookies
+curl -X POST http://localhost:8080/api/user -H 'Content-Type: application/json' -k -d '{"username":"test01", "password":"testing123", "email":"fake@fake.com"}' --cookie-jar ./cookies

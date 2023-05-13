@@ -105,3 +105,17 @@ class User(Base):
             return None
         
         return user
+    
+    @classmethod
+    def email_in_use(cls, email: str):
+        conn = create_connection()
+        existing = conn.query(cls).where(cls.email == email).first()
+        conn.close()
+        return existing is not None
+
+    @classmethod
+    def username_in_use(cls, username: str):
+        conn = create_connection()
+        existing = conn.query(cls).where(cls.username == username).first()
+        conn.close()
+        return existing is not None

@@ -113,9 +113,15 @@ def logout():
 def create_user(username: str, email: str, password: str):
     # Open a database connection and create the user
     conn = create_connection()
+    # Make sure username and email are unique
+    if User.email_in_use(email):
+        return {"success": False, "msg": f"Email {email} is already in use."}
+    if User.username_in_use(username):
+        return {"success": False, "msg": f"Username {username} is already in use"}
+    # Create user object
     u = User.create_user(username, email, password)
+    # Add it to the database
     conn.add(u)
     conn.commit()
     # FIXME: Kick off email verification job
-    # FIXME: Validate uniqueness of username and email address
     return {"success": True, "msg": "User created!"}
