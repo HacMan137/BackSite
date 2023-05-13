@@ -2,6 +2,7 @@ import json
 from flask import Blueprint, request, jsonify
 from backsite.db.schema import User, Session
 from backsite.db.connection import create_connection
+from backsite.app.utils import requires
 
 user_app = Blueprint("user", __name__, template_folder="templates")
 
@@ -44,13 +45,15 @@ def authorized(required_permissions = []):
     return _authorized
 
 @user_app.route('/api/user/session', methods=["POST"])
-def authenticate():
+@requires({
+    "username": str,
+    "password": str
+})
+def authenticate(username: str, password: str):
     '''
     Authenticate the user and create a new user session if successful
     '''
     data = request.get_json()
-    username = data['username']
-    password = data['password']
     
     u = User.authenticate(username, password)
 
@@ -98,3 +101,4 @@ def logout():
     response.delete_cookie("session")
 
     return response
+    
