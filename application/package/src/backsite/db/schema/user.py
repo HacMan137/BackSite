@@ -71,7 +71,7 @@ class User(Base):
         return HASH_FUNCTION(salted_password.encode()).hexdigest()
 
     @classmethod
-    def create_user(cls, username: str, email: str, password: str, verified: bool =False):
+    def create_user(cls, username: str, email: str, password: str, verified: bool = False):
         '''
         Create a new user
         '''
