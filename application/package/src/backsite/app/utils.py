@@ -1,7 +1,14 @@
 import re
+import pika
+import os
+import json
+import sys
 from flask import request, jsonify
 from typing import Dict, Callable, Tuple
 from functools import wraps
+from traceback import print_exc
+
+RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "rabbitmq")
 
 def pattern(regex, failure_message = "", input = "", key = ""):
     '''
@@ -61,3 +68,22 @@ def requires(data_schema: Dict[str, type | Tuple[Callable | str, ...]]):
         return __requires
     # Return inner function
     return _requires
+
+def send_rabbitmq_message(data, queue_name):
+    try:
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(host=RABBITMQ_HOST))
+        channel = connection.channel()
+
+        channel.queue_declare(queue=queue_name)
+
+        channel.basic_publish(exchange='', routing_key=queue_name, body=json.dumps(data))
+        print(f"Sent data through queue {queue_name}. Data sent: {data}")
+        connection.close()
+    except Exception as e:
+        print(f"Error while trying to send message to RabbitMQ: {e}")
+        print_exc()
+        sys.stdout.flush()
+        return False
+    
+    return True

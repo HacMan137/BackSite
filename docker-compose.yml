@@ -35,6 +35,7 @@ services:
       POSTGRES_USER: backsite
       POSTGRES_PASSWORD: backsite
       POSTGRES_DB_NAME: backsite
+      RABBITMQ_HOST: rabbitmq
     networks:
       - backsite
     depends_on:

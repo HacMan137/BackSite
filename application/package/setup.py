@@ -17,6 +17,7 @@ setuptools.setup(
         "flask-cors==3.0.10",
         "gunicorn==20.1.0",
         "sqlalchemy-utils==0.41.1",
+        "pika==1.3.2",
     ],
     package_dir={"": "src"},
     packages=[

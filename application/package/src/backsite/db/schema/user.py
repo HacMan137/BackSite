@@ -13,7 +13,7 @@ def generate_salt():
     '''
     return str(uuid4()).replace("-","")
 
-def generate_user_identifier():
+def generate_user_secret():
     '''
     Generate a random user identifier to be used for user-specific links
     '''
@@ -37,8 +37,8 @@ class User(Base):
     salt = Column(String(length=32), nullable=False, default=generate_salt)
     # Boolean indicating whether user has successfully completed email verification
     verified = Column(Boolean, nullable=False, default=False)
-    # Unique user identifier used to generate user-specific links
-    user_identifier = Column(String(length=64), nullable=False, default=generate_user_identifier)
+    # Unique user secret used to generate user-specific links
+    user_secret = Column(String(length=64), nullable=False, default=generate_user_secret)
 
     # List of active sessions attributed to this user
     sessions = relationship("Session", back_populates="user")
@@ -119,3 +119,6 @@ class User(Base):
         existing = conn.query(cls).where(cls.username == username).first()
         conn.close()
         return existing is not None
+    
+    def shuffle_secret(self):
+        self.user_secret = generate_user_secret()

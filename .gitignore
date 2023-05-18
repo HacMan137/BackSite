@@ -2,3 +2,4 @@ elastic_data
 postgres_data
 configuration/config.json
 test_scripts/cookies
+test_scripts/create_user.sh

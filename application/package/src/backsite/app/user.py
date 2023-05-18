@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify
 from backsite.db.schema import User, Session
 from backsite.db.connection import create_connection
-from backsite.app.utils import requires, pattern
+from backsite.app.utils import requires, pattern, send_rabbitmq_message
 from functools import wraps
 
 user_app = Blueprint("user", __name__, template_folder="templates")
@@ -123,5 +123,24 @@ def create_user(username: str, email: str, password: str):
     # Add it to the database
     conn.add(u)
     conn.commit()
-    # FIXME: Kick off email verification job
+    # Trigger job to send verification email
+    job_sent = send_verification_email(u)
+    conn.close()
+    # Return error if we couldn't complete the request
+    if not job_sent:
+        return {"success": False, "msg": "Unable to communicate with backend services. Please try again later."}
+    # Return success
     return {"success": True, "msg": "User created!"}
+
+def send_verification_email(user: User):
+
+    data = {
+        "command": "sendVerificationEmail",
+        "params": {
+            "username": user.username,
+            "email": user.email,
+            "secret": user.user_secret
+        }
+    }
+
+    return send_rabbitmq_message(data, "email_jobs")
