@@ -19,6 +19,10 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
     networks:
       - backsite
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    networks:
+      - backsite
   web:
     build: 
       context: ./application
@@ -36,10 +40,28 @@ services:
     depends_on:
       - db
       - elastic
+      - rabbitmq
     volumes:
       - ./configuration:/opt/configuration
-
-
+  background_jobs:
+    build: 
+      context: ./background_jobs
+    restart: always
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: backsite
+      POSTGRES_PASSWORD: backsite
+      POSTGRES_DB_NAME: backsite
+      RABBITMQ_HOST: rabbitmq
+    networks:
+      - backsite
+    depends_on:
+      - db
+      - elastic
+      - rabbitmq
+    volumes:
+      - ./configuration:/opt/configuration
 networks:
   backsite:
     driver: bridge
