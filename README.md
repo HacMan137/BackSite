@@ -18,6 +18,10 @@ BackSite is designed to be used behind an NGINX proxy which may also service a w
 
 Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
+## Helpful Info
+
+- Default admin password is "admin"
+
 ## Roadmap:
 
 - [X] Add basic DB table schema via SQLAlchemy

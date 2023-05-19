@@ -34,7 +34,7 @@ def authorized(required_permissions = []):
                 return {"success": False, "msg": "Unauthorized."}, 401
             
             user = session.user
-            user_permissions = [p.permission_name for p in user.permissions]
+            user_permissions = user.all_permissions
             for required in required_permissions:
                 if required not in user_permissions:
                     conn.close()

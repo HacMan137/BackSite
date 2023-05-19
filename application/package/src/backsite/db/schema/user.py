@@ -58,6 +58,16 @@ class User(Base):
             "username": self.username,
             "verified": self.verified,
         }
+
+    @property
+    def all_permissions(self):
+        permission_set = set()
+        for permission in self.permissions:
+            permission_set.add(permission)
+        for group in self.groups:
+            for permission in group.permissions:
+                permission_set.add(permission)
+        return permission_set
     
     @classmethod
     def calculate_salted_hash(cls, salt: str, password: str):
@@ -148,13 +158,3 @@ class User(Base):
     
     def shuffle_secret(self):
         self.user_secret = generate_user_secret()
-    
-    @property
-    def all_permissions(self):
-        permission_set = set()
-        for permission in self.permissions:
-            permission_set.add(permission)
-        for group in self.groups:
-            for permission in group.permissions:
-                permission_set.add(permission)
-        return permission_set
