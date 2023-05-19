@@ -6,7 +6,8 @@ from uuid import uuid4
 from datetime import datetime, timedelta
 
 DEFAULT_PERMISSIONS = [
-    "ModifyUser",
+    "ModifyUserInformation",
+    "ModifyUserPermissions"
     "DeleteUser",
     "CreatePost",
     "DeletePost",
@@ -26,6 +27,7 @@ class Permission(Base):
     permission_name = Column(String(length=255), primary_key=True)
     
     users = relationship("User", secondary=user_permissions, back_populates="permissions")
+    groups = relationship("Group", secondary="group_permissions", back_populates="permissions")
 
     @property
     def json(self):

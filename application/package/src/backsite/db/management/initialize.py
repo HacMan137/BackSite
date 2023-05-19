@@ -3,7 +3,7 @@ import json
 from sqlalchemy import inspect
 from backsite.db.management import initialize_db
 from backsite.db.connection import create_sql_engine, create_connection
-from backsite.db.schema import User, Permission
+from backsite.db.schema import User, Permission, Group
 from backsite.utils import get_configuration
 
 def populate_db():
@@ -20,6 +20,8 @@ def populate_db():
     conn.add(admin)
     # Create default permissions
     default_permissions = Permission.create_default_permissions(conn)
+    # Create default groups
+    Group.create_default_groups(conn)
     # Give admin all permissions
     for perm in default_permissions:
         admin.permissions.append(perm)

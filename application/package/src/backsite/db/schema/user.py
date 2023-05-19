@@ -44,6 +44,8 @@ class User(Base):
     sessions = relationship("Session", back_populates="user")
     # List of permissions assigned to the user
     permissions = relationship("Permission", secondary="user_permissions", back_populates="users")
+    # List of groups the user is part of
+    groups = relationship("Group", secondary="user_groups", back_populates="users")
 
     @property
     def json(self) -> dict:
@@ -146,3 +148,13 @@ class User(Base):
     
     def shuffle_secret(self):
         self.user_secret = generate_user_secret()
+    
+    @property
+    def all_permissions(self):
+        permission_set = set()
+        for permission in self.permissions:
+            permission_set.add(permission)
+        for group in self.groups:
+            for permission in group.permissions:
+                permission_set.add(permission)
+        return permission_set
