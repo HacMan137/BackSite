@@ -28,8 +28,8 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
 - [X] Add user creation & confirmation endpoints with support for sending email confirmation links.
 
-- [ ] Add user permission groups
+- [X] Add setup wizard for entering API location, SMTP credentials, etc.
 
-- [ ] Add setup wizard for entering API location, SMTP credentials, etc.
+- [ ] Add user permission groups
  
 - [ ] ...And much more!

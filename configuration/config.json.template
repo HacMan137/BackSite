@@ -4,7 +4,7 @@
     "FRONTFACING_URL": "",
     "VERIFICATION_ENDPOINT": "",
     "ADMIN_EMAIL": "",
-    "API_EMAIL",
+    "API_EMAIL": "",
     "SMTP_HOST": "",
     "SMTP_PORT": "",
     "SMTP_USERNAME": "",
