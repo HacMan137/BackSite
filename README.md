@@ -34,6 +34,10 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
 - [X] Add setup wizard for entering API location, SMTP credentials, etc.
 
-- [ ] Add user permission groups
+- [X] Add user permission groups
+
+- [ ] Add user modification endpoints
+
+- [ ] Add user posts
  
 - [ ] ...And much more!
