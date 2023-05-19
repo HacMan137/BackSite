@@ -1,0 +1,1 @@
+curl -X POST http://localhost:8080/api/user/verification -H 'Content-Type: application/json' -k -d '{"username":"test01", "password":"testing123", "secret":""}' --cookie-jar ./cookies

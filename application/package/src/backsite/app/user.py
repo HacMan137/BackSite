@@ -144,3 +144,44 @@ def send_verification_email(user: User):
     }
 
     return send_rabbitmq_message(data, "email_jobs")
+
+@user_app.route('/api/user/verification', methods=["POST"])
+@requires({
+    "username": str,
+    "password": str,
+    "secret": str
+})
+def verify_email(username: str, password: str, secret: str):
+    '''
+    Authenticate the user and verify their account with the given secret
+    '''
+    data = request.get_json()
+    conn = create_connection()
+    u = User.verify(username, password, secret, conn)
+
+    if u is None:
+        conn.close()
+        return {"success": False, "msg": f"Couldn't verify user {username}"}
+
+    # Create new user session
+    s = Session(user_id = u.user_id)
+
+    conn.add(s)
+    conn.commit()
+
+    # Build response
+    response = jsonify({
+        "success": True,
+        "user": u.json
+    })
+    # Set session cookie
+    response.set_cookie(
+        "session",
+        value = s.token,
+        httponly = True,
+        max_age = 14 * 60 * 60 * 24
+    ),
+    # Close connection
+    conn.close()
+    # Return response
+    return response

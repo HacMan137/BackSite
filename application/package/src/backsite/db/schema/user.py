@@ -107,6 +107,30 @@ class User(Base):
         return user
     
     @classmethod
+    def verify(cls, username: str, password: str, secret, conn):
+        user = conn.query(cls).where(cls.username == username).first()
+        if user is None:
+            conn.close()
+            return None
+        # Calculate salted hash using the user's salt and the given password
+        salted_password_hash = cls.calculate_salted_hash(user.salt, password)
+        # Verify that hashes match
+        if salted_password_hash != user.password_hash:
+            conn.close()
+            return None
+        # Verify that the provided secret matches
+        if secret != user.user_secret:
+            conn.close()
+            return None
+        # Mark user as verified
+        user.verified = True
+        # Shuffle user secret
+        user.shuffle_secret()
+        conn.add(user)
+        conn.commit()
+        return user
+    
+    @classmethod
     def email_in_use(cls, email: str):
         conn = create_connection()
         existing = conn.query(cls).where(cls.email == email).first()
