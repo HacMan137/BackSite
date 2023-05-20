@@ -57,16 +57,18 @@ class User(Base):
             "email": self.email,
             "username": self.username,
             "verified": self.verified,
+            "groups": [group.json for group in self.groups],
+            "permissions": [p for p in self.all_permissions]
         }
 
     @property
     def all_permissions(self):
         permission_set = set()
         for permission in self.permissions:
-            permission_set.add(permission)
+            permission_set.add(permission.permission_name)
         for group in self.groups:
             for permission in group.permissions:
-                permission_set.add(permission)
+                permission_set.add(permission.permission_name)
         return permission_set
     
     @classmethod
@@ -96,26 +98,22 @@ class User(Base):
         return u
     
     @classmethod
-    def authenticate(cls, username: str, password: str):
+    def authenticate(cls, username: str, password: str, conn):
         '''
         Authenticate a user with the given credentials
         '''
         # Identify user by given username
-        conn = create_connection()
         user = conn.query(cls).where(cls.username == username).first()
         # If we couldn't find the user, return None
         if user is None or not user.verified:
-            conn.close()
             return None
         # Calculate salted hash using the user's salt and the given password
         salted_password_hash = cls.calculate_salted_hash(user.salt, password)
         
-        conn.close()
-
         # If the calculated hash doesn't match the user's hash, return None
         if salted_password_hash != user.password_hash:
             return None
-        
+
         return user
     
     @classmethod
@@ -158,3 +156,19 @@ class User(Base):
     
     def shuffle_secret(self):
         self.user_secret = generate_user_secret()
+
+    def change_password(self, old_password, new_password):
+        # Calculate old password candidate hash
+        old_hash = self.__class__.calculate_salted_hash(self.salt, old_password)
+        if old_hash != self.password_hash:
+            return False
+        # Calculate new password hash
+        new_hash = self.__class__.calculate_salted_hash(self.salt, new_password)
+        self.password_hash = new_hash
+        # Return True to indicate success
+        return True
+    
+    def clear_sessions(self, conn):
+        for session in self.sessions:
+            conn.delete(session)
+        conn.commit()

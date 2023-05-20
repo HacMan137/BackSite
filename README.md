@@ -36,7 +36,7 @@ Like the project? [Buy me a coffee](https://bmc.link/5centlabs)
 
 - [X] Add user permission groups
 
-- [ ] Add user modification endpoints
+- [X] Add user modification endpoint
 
 - [ ] Add user posts
  

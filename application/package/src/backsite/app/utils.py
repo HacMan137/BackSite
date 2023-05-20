@@ -7,8 +7,14 @@ from flask import request, jsonify
 from typing import Dict, Callable, Tuple
 from functools import wraps
 from traceback import print_exc
+from datetime import datetime
 
 RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "rabbitmq")
+LOGFILE = "/var/log/backsite.log"
+
+PASSWORD_REGEX = r'^.{8,}$'
+EMAIL_REGEX = r'^\w+@\w+\.\w{1,}$'
+USERNAME_REGEX = r'^.{6,}$'
 
 def pattern(regex, failure_message = "", input = "", key = ""):
     '''
@@ -24,7 +30,7 @@ def pattern(regex, failure_message = "", input = "", key = ""):
     
     return True
 
-def requires(data_schema: Dict[str, type | Tuple[Callable | str, ...]]):
+def requires(data_schema: Dict[str, type | Tuple[Callable | str, ...]], optional=False):
     '''
     Decorator to specify what data is required for an endpoint
     and automatically handle invalid inputs
@@ -41,7 +47,10 @@ def requires(data_schema: Dict[str, type | Tuple[Callable | str, ...]]):
             for key in data_schema:
                 # Check if key exists
                 if key not in data:
-                    return {"success": False, "msg": f"Missing required key {key}"}, 400
+                    if not optional:
+                        return {"success": False, "msg": f"Missing required key {key}"}, 400
+                    else:
+                        data[key] = ""
                 # If a required key type is specified, check that the data type matches
                 elif type(data_schema[key]) == type and type(data[key]) != data_schema[key]:
                     return {"success": False, "msg": f"Expected {key} to be of type {str(data_schema[key].__name__)}"}, 400
@@ -69,6 +78,9 @@ def requires(data_schema: Dict[str, type | Tuple[Callable | str, ...]]):
     # Return inner function
     return _requires
 
+def optional(data_schema: Dict[str, type | Tuple[Callable | str, ...]]):
+    return requires(data_schema, optional=True)
+
 def send_rabbitmq_message(data, queue_name):
     try:
         connection = pika.BlockingConnection(
@@ -87,3 +99,8 @@ def send_rabbitmq_message(data, queue_name):
         return False
     
     return True
+
+def log(content):
+    line = f"{datetime.utcnow().isoformat()}\t{content}\n"
+    with open(LOGFILE, "a") as f:
+        f.write(line)
