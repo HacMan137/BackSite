@@ -42,6 +42,8 @@ class User(Base):
 
     # List of active sessions attributed to this user
     sessions = relationship("Session", back_populates="user")
+    # List of posts created by the user
+    posts = relationship("Post", back_populates="author")
     # List of permissions assigned to the user
     permissions = relationship("Permission", secondary="user_permissions", back_populates="users")
     # List of groups the user is part of

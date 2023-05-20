@@ -6,5 +6,6 @@ from backsite.db.schema.user import User
 from backsite.db.schema.session import Session
 from backsite.db.schema.permission import Permission, user_permissions
 from backsite.db.schema.group import Group, user_groups, group_permissions
+from backsite.db.schema.post import Post
 
 DBSession = scoped_session(sessionmaker())

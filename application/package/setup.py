@@ -18,6 +18,7 @@ setuptools.setup(
         "gunicorn==20.1.0",
         "sqlalchemy-utils==0.41.1",
         "pika==1.3.2",
+        "elasticsearch==7.17.9",
     ],
     package_dir={"": "src"},
     packages=[

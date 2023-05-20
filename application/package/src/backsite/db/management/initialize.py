@@ -1,5 +1,6 @@
 import time
 import json
+import sys
 from sqlalchemy import inspect
 from backsite.db.management import initialize_db
 from backsite.db.connection import create_sql_engine, create_connection
@@ -44,5 +45,6 @@ if __name__ == "__main__":
             break
         except Exception as e:
             print(f"Failed to connect to DB.\n{e}\nRetries left: {retries}")
+            sys.stdout.flush()
             retries -= 1
             time.sleep(5)

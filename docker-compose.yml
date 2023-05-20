@@ -9,6 +9,8 @@ services:
       - backsite
     environment:
       ELASTIC_PASSWORD: backsite
+    ports:
+      - 9200:9200
   db:
     image: postgres:15.2
     restart: always
@@ -36,6 +38,8 @@ services:
       POSTGRES_PASSWORD: backsite
       POSTGRES_DB_NAME: backsite
       RABBITMQ_HOST: rabbitmq
+      ELASTIC_HOST: elastic
+      ELASTIC_PASSWORD: backsite
     networks:
       - backsite
     depends_on:

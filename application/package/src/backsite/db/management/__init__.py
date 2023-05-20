@@ -1,6 +1,6 @@
 from sqlalchemy_utils import database_exists, create_database
 # Import all tables we want to create below
-from backsite.db.schema import User, Session, Permission, Group
+from backsite.db.schema import User, Session, Permission, Group, Post
 from backsite.db.schema import user_permissions, group_permissions, user_groups
 # Import Base and DBSession
 from backsite.db.schema import DBSession, Base
