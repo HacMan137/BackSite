@@ -12,7 +12,7 @@ BackSite provides out-of-the-box support for everything you need to get your lat
 - Timeline feeds
 - User session cleanup
 
-BackSite is designed to be used behind an NGINX proxy which may also service a web UI to interact with the application.
+BackSite is designed to be used behind a reverse proxy which may also service a web UI to interact with the application.
 
 ## Support
 
